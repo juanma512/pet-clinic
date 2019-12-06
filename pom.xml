@@ -52,9 +52,9 @@
 
   <scm>
     <developerConnection>scm:git:https://github.com/juanma512/pet-clinic.git</developerConnection>
-    <tag>pet-clinic-0.0.2</tag>
+    <tag>HEAD</tag>
   </scm>
 
-  <version>0.0.2</version>
+  <version>0.0.3-SNAPSHOT</version>
 
 </project>
