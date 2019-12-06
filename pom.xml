@@ -53,9 +53,9 @@
 
   <scm>
     <developerConnection>scm:git:https://github.com/juanma512/pet-clinic.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>pet-clinic-0.0.3</tag>
   </scm>
 
-  <version>0.0.3-SNAPSHOT</version>
+  <version>0.0.3</version>
 
 </project>
