@@ -13,6 +13,13 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
         <groupId>org.springframework.boot</groupId>
       </plugin>
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <goals>install</goals>
+        </configuration>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
     </plugins>
   </build>
   <packaging>pom</packaging>
@@ -45,6 +52,10 @@
     <java.version>11</java.version>
   </properties>
 
-  <version>0.0.1-SNAPSHOT</version>
+  <scm>
+    <developerConnection>scm:git:https://github.com/juanma512/pet-clinic.git</developerConnection>
+  </scm>
+
+  <version>0.0.2-SNAPSHOT</version>
 
 </project>
