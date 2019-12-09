@@ -1,11 +1,11 @@
 package com.jmoe.petclinic.services.map;
 
 import com.jmoe.petclinic.model.Owner;
-import com.jmoe.petclinic.services.CrudService;
+import com.jmoe.petclinic.services.OwnerService;
 import java.util.Set;
 
 public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements
-    CrudService<Owner, Long> {
+    OwnerService {
 
     @Override
     public Set<Owner> findAll() {
@@ -30,5 +30,11 @@ public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements
     @Override
     public Owner findById(Long id) {
         return super.findById(id);
+    }
+
+    @Override
+    public Owner findByLastName(String lastName) {
+        return map.values().stream().filter(owner -> owner.getLastName().equals(lastName))
+            .findFirst().orElse(null);
     }
 }

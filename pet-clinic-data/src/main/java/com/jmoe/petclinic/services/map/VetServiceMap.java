@@ -1,10 +1,10 @@
 package com.jmoe.petclinic.services.map;
 
 import com.jmoe.petclinic.model.Vet;
-import com.jmoe.petclinic.services.CrudService;
+import com.jmoe.petclinic.services.VetService;
 import java.util.Set;
 
-public class VetServiceMap extends AbstractMapService<Vet, Long> implements CrudService<Vet, Long> {
+public class VetServiceMap extends AbstractMapService<Vet, Long> implements VetService {
 
     @Override
     public Set<Vet> findAll() {
