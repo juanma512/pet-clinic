@@ -51,12 +51,12 @@
           <span>Home</span>
         </li>
 
-        <li th:replace="::menuItem ('/owners/find','owners','find owners','search','Find owners')">
+        <li th:replace="::menuItem ('/owners/','owners','owners','th-list','Owners')">
           <span aria-hidden="true" class="glyphicon glyphicon-search"></span>
-          <span>Find owners</span>
+          <span>Owners</span>
         </li>
 
-        <li th:replace="::menuItem ('/vets.html','vets','veterinarians','th-list','Veterinarians')">
+        <li th:replace="::menuItem ('/vets/','vets','veterinarians','th-list','Veterinarians')">
           <span aria-hidden="true" class="glyphicon glyphicon-th-list"></span>
           <span>Veterinarians</span>
         </li>
