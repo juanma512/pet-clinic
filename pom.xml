@@ -21,6 +21,27 @@
         </configuration>
         <groupId>org.apache.maven.plugins</groupId>
       </plugin>
+      <!-- Spring Boot Actuator displays build-related information if a git.properties
+        file is present at the classpath -->
+      <plugin>
+        <artifactId>git-commit-id-plugin</artifactId>
+        <configuration>
+          <dateFormat>yyyy-MM-dd'T'HH:mm:ssZ</dateFormat>
+          <failOnNoGitDirectory>false</failOnNoGitDirectory>
+          <generateGitPropertiesFile>true</generateGitPropertiesFile>
+          <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties
+          </generateGitPropertiesFilename>
+          <verbose>true</verbose>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+          </execution>
+        </executions>
+        <groupId>pl.project13.maven</groupId>
+      </plugin>
     </plugins>
   </build>
   <packaging>pom</packaging>
@@ -51,6 +72,12 @@
 
   <properties>
     <java.version>11</java.version>
+
+    <!-- Web dependencies -->
+    <webjars-bootstrap.version>3.3.6</webjars-bootstrap.version>
+    <webjars-jquery-ui.version>1.11.4</webjars-jquery-ui.version>
+    <webjars-jquery.version>2.2.4</webjars-jquery.version>
+    <wro4j.version>1.8.0</wro4j.version>
   </properties>
 
   <scm>

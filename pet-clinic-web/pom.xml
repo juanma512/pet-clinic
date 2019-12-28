@@ -3,6 +3,45 @@
   xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <artifactId>pet-clinic-web</artifactId>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>wro4j-maven-plugin</artifactId>
+        <configuration>
+          <contextFolder>${basedir}/src/main/less</contextFolder>
+          <cssDestinationFolder>${project.build.directory}/classes/static/css</cssDestinationFolder>
+          <extraConfigFile>${basedir}/src/main/wro/wro.properties</extraConfigFile>
+          <wroFile>${basedir}/src/main/wro/wro.xml</wroFile>
+          <wroManagerFactory>
+            ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory
+          </wroManagerFactory>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <artifactId>bootstrap</artifactId>
+            <groupId>org.webjars</groupId>
+            <version>${webjars-bootstrap.version}</version>
+          </dependency>
+          <dependency>
+            <artifactId>mockito-core</artifactId>
+            <groupId>org.mockito</groupId>
+            <version>${mockito.version}</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <phase>generate-resources</phase>
+          </execution>
+        </executions>
+        <groupId>ro.isdc.wro4j</groupId>
+        <version>${wro4j.version}</version>
+      </plugin>
+    </plugins>
+  </build>
+
   <dependencies>
     <dependency>
       <artifactId>pet-clinic-data</artifactId>
@@ -27,6 +66,29 @@
       <optional>true</optional>
       <scope>runtime</scope>
     </dependency>
+
+    <!-- webjars -->
+    <dependency>
+      <artifactId>webjars-locator-core</artifactId>
+      <groupId>org.webjars</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>jquery</artifactId>
+      <groupId>org.webjars</groupId>
+      <version>${webjars-jquery.version}</version>
+    </dependency>
+    <dependency>
+      <artifactId>jquery-ui</artifactId>
+      <groupId>org.webjars</groupId>
+      <version>${webjars-jquery-ui.version}</version>
+    </dependency>
+    <dependency>
+      <artifactId>bootstrap</artifactId>
+      <groupId>org.webjars</groupId>
+      <version>${webjars-bootstrap.version}</version>
+    </dependency>
+    <!-- end of webjars -->
+
   </dependencies>
 
   <modelVersion>4.0.0</modelVersion>
