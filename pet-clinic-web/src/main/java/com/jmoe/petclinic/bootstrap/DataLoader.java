@@ -3,12 +3,12 @@ package com.jmoe.petclinic.bootstrap;
 import com.jmoe.petclinic.model.Owner;
 import com.jmoe.petclinic.model.Pet;
 import com.jmoe.petclinic.model.PetType;
-import com.jmoe.petclinic.model.Speciality;
+import com.jmoe.petclinic.model.Specialty;
 import com.jmoe.petclinic.model.Vet;
 import com.jmoe.petclinic.services.OwnerService;
 import com.jmoe.petclinic.services.PetService;
 import com.jmoe.petclinic.services.PetTypeService;
-import com.jmoe.petclinic.services.SpecialityService;
+import com.jmoe.petclinic.services.SpecialtyService;
 import com.jmoe.petclinic.services.VetService;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -25,19 +25,19 @@ public class DataLoader implements CommandLineRunner {
     private final VetService vetService;
     private final PetTypeService petTypeService;
     private final PetService petService;
-    private final SpecialityService specialityService;
+    private final SpecialtyService specialtyService;
 
     public DataLoader(OwnerService ownerService, VetService vetService,
         PetTypeService petTypeService, PetService petService,
-        SpecialityService specialityService) {
+        SpecialtyService specialtyService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
         this.petService = petService;
-        this.specialityService = specialityService;
+        this.specialtyService = specialtyService;
     }
 
-    private void createOwner(String firstName, String lastName, String address, String city,
+    private Owner createOwner(String firstName, String lastName, String address, String city,
         String telephone, Set<Pet> pets) {
         Owner owner = new Owner();
         owner.setFirstName(firstName);
@@ -47,16 +47,16 @@ public class DataLoader implements CommandLineRunner {
         owner.setTelephone(telephone);
         owner.setPets(pets);
 
-        ownerService.save(owner);
+        return ownerService.save(owner);
     }
 
-    private void createVet(String firstName, String lastName, Set<Speciality> specialities) {
+    private Vet createVet(String firstName, String lastName, Set<Specialty> specialties) {
         Vet vet = new Vet();
         vet.setFirstName(firstName);
         vet.setLastName(lastName);
-        vet.setSpecialities(specialities);
+        vet.setSpecialties(specialties);
 
-        vetService.save(vet);
+        return vetService.save(vet);
     }
 
     private PetType createPetType(String name) {
@@ -74,36 +74,45 @@ public class DataLoader implements CommandLineRunner {
         return petService.save(pet);
     }
 
-    private Speciality createSpeciality(String description) {
-        Speciality speciality = new Speciality();
-        speciality.setDescription(description);
+    private Specialty createSpecialty(String description) {
+        Specialty specialty = new Specialty();
+        specialty.setDescription(description);
 
-        return specialityService.save(speciality);
+        return specialtyService.save(specialty);
     }
 
     @Override
     public void run(String... args) throws Exception {
+        if (petTypeService.findAll().size() == 0) {
+            PetType dog = createPetType("Dog");
+            PetType cat = createPetType("Cat");
+            System.out.println("Loaded pet types ...");
 
-        PetType dog = createPetType("Dog");
-        PetType cat = createPetType("Cat");
+            Pet goomba = createPet(LocalDate.parse("2015-07-24"), dog);
+            Pet michu = createPet(LocalDate.parse("2019-01-03"), cat);
+            Set<Pet> pets = new HashSet<>(Arrays.asList(michu, goomba));
+            System.out.println("Loaded pets ...");
 
-        Pet goomba = createPet(LocalDate.parse("2015-07-24"), dog);
-        Pet michu = createPet(LocalDate.parse("2019-01-03"), cat);
+            Owner owner1 = createOwner("Juan Manuel", "Oviedo", "Calle Fuenlabrada 36",
+                "Getafe", "676938322", pets);
+            Owner owner2 = createOwner("Mireia", "Romero Moreno", "Calle Fuenlabrada 36",
+                "Getafe", "695932729", pets);
+            System.out.println("Loaded owners ...");
+            System.out.println(owner1);
+            System.out.println(owner2);
 
-        Set<Pet> pets = new HashSet<>(Arrays.asList(michu, goomba));
+            Specialty surgery = createSpecialty("Surgery");
+            Specialty rx = createSpecialty("RX");
+            Specialty nutrition_and_food = createSpecialty("Nutrition and Food");
+            System.out.println("Loaded specialties ...");
 
-        createOwner("Juan Manuel", "Oviedo", "Calle Fuenlabrada 36",
-            "Getafe", "676938322", pets);
-        createOwner("Mireia", "Romero Moreno", "Calle Fuenlabrada 36",
-            "Getafe", "695932729", pets);
-        System.out.println("Loaded owners ...");
-
-        Speciality surgery = createSpeciality("Surgery");
-        Speciality rx = createSpeciality("RX");
-        Speciality nutrition_and_food = createSpeciality("Nutrition and Food");
-
-        createVet("Ramiro", "Moreno Romero", new HashSet<>(Collections.singletonList(surgery)));
-        createVet("Alicia", "Garcia Ramirez", new HashSet<>(Arrays.asList(rx, nutrition_and_food)));
-        System.out.println("Loaded vets ...");
+            Vet vet1 = createVet("Ramiro", "Moreno Romero",
+                new HashSet<>(Collections.singletonList(surgery)));
+            Vet vet2 = createVet("Alicia", "Garcia Ramirez",
+                new HashSet<>(Arrays.asList(rx, nutrition_and_food)));
+            System.out.println("Loaded vets ...");
+            System.out.println(vet1);
+            System.out.println(vet2);
+        }
     }
 }
