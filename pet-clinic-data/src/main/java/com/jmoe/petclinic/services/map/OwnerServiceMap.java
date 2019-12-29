@@ -26,7 +26,20 @@ public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements
 
     @Override
     public Owner save(Owner object) {
-        return super.save(object);
+        if (object == null) {
+            return null;
+        } else {
+            if (object.getPets() != null) {
+                object.getPets().forEach(pet -> {
+                    if (pet.getPetType() == null) {
+                        throw new RuntimeException("Pet Type is required");
+                    } else {
+                        pet.setOwner(object);
+                    }
+                });
+            }
+            return super.save(object);
+        }
     }
 
     @Override
