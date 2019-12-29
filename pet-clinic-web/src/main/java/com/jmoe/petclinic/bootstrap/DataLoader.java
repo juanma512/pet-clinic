@@ -3,13 +3,16 @@ package com.jmoe.petclinic.bootstrap;
 import com.jmoe.petclinic.model.Owner;
 import com.jmoe.petclinic.model.Pet;
 import com.jmoe.petclinic.model.PetType;
+import com.jmoe.petclinic.model.Speciality;
 import com.jmoe.petclinic.model.Vet;
 import com.jmoe.petclinic.services.OwnerService;
 import com.jmoe.petclinic.services.PetService;
 import com.jmoe.petclinic.services.PetTypeService;
+import com.jmoe.petclinic.services.SpecialityService;
 import com.jmoe.petclinic.services.VetService;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import org.springframework.boot.CommandLineRunner;
@@ -22,13 +25,16 @@ public class DataLoader implements CommandLineRunner {
     private final VetService vetService;
     private final PetTypeService petTypeService;
     private final PetService petService;
+    private final SpecialityService specialityService;
 
     public DataLoader(OwnerService ownerService, VetService vetService,
-        PetTypeService petTypeService, PetService petService) {
+        PetTypeService petTypeService, PetService petService,
+        SpecialityService specialityService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
         this.petService = petService;
+        this.specialityService = specialityService;
     }
 
     private void createOwner(String firstName, String lastName, String address, String city,
@@ -44,10 +50,11 @@ public class DataLoader implements CommandLineRunner {
         ownerService.save(owner);
     }
 
-    private void createVet(String firstName, String lastName) {
+    private void createVet(String firstName, String lastName, Set<Speciality> specialities) {
         Vet vet = new Vet();
         vet.setFirstName(firstName);
         vet.setLastName(lastName);
+        vet.setSpecialities(specialities);
 
         vetService.save(vet);
     }
@@ -67,6 +74,13 @@ public class DataLoader implements CommandLineRunner {
         return petService.save(pet);
     }
 
+    private Speciality createSpeciality(String description) {
+        Speciality speciality = new Speciality();
+        speciality.setDescription(description);
+
+        return specialityService.save(speciality);
+    }
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -84,8 +98,12 @@ public class DataLoader implements CommandLineRunner {
             "Getafe", "695932729", pets);
         System.out.println("Loaded owners ...");
 
-        createVet("Ramiro", "Moreno Romero");
-        createVet("Alicia", "Garcia Ramirez");
+        Speciality surgery = createSpeciality("Surgery");
+        Speciality rx = createSpeciality("RX");
+        Speciality nutrition_and_food = createSpeciality("Nutrition and Food");
+
+        createVet("Ramiro", "Moreno Romero", new HashSet<>(Collections.singletonList(surgery)));
+        createVet("Alicia", "Garcia Ramirez", new HashSet<>(Arrays.asList(rx, nutrition_and_food)));
         System.out.println("Loaded vets ...");
     }
 }

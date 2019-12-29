@@ -3,9 +3,9 @@ package com.jmoe.petclinic.services.map;
 import com.jmoe.petclinic.model.Speciality;
 import com.jmoe.petclinic.services.SpecialityService;
 import java.util.Set;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class SpecialityMapService extends AbstractMapService<Speciality, Long> implements
     SpecialityService {
 

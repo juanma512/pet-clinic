@@ -3,9 +3,9 @@ package com.jmoe.petclinic.services.map;
 import com.jmoe.petclinic.model.PetType;
 import com.jmoe.petclinic.services.PetTypeService;
 import java.util.Set;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class PetTypeServiceMap extends AbstractMapService<PetType, Long> implements PetTypeService {
 
     @Override
