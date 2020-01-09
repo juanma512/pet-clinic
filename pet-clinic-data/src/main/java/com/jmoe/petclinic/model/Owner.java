@@ -1,5 +1,6 @@
 package com.jmoe.petclinic.model;
 
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,6 +28,6 @@ public class Owner extends Person {
     private String telephone;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private Set<Pet> pets;
+    private Set<Pet> pets = new HashSet<>();
 
 }
