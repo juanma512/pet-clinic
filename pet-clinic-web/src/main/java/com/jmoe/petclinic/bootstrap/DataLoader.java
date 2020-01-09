@@ -98,8 +98,8 @@ public class DataLoader implements CommandLineRunner {
             Owner owner2 = createOwner("Mireia", "Romero Moreno", "Calle Fuenlabrada 36",
                 "Getafe", "695932729", pets);
             System.out.println("Loaded owners ...");
-            System.out.println(owner1);
-            System.out.println(owner2);
+            //System.out.println(owner1);
+            //System.out.println(owner2);
 
             Specialty surgery = createSpecialty("Surgery");
             Specialty rx = createSpecialty("RX");
@@ -111,8 +111,8 @@ public class DataLoader implements CommandLineRunner {
             Vet vet2 = createVet("Alicia", "Garcia Ramirez",
                 new HashSet<>(Arrays.asList(rx, nutrition_and_food)));
             System.out.println("Loaded vets ...");
-            System.out.println(vet1);
-            System.out.println(vet2);
+            //System.out.println(vet1);
+            //System.out.println(vet2);
         }
     }
 }
