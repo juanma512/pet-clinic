@@ -5,9 +5,11 @@ import com.jmoe.petclinic.repositories.OwnerRepository;
 import com.jmoe.petclinic.services.OwnerService;
 import java.util.HashSet;
 import java.util.Set;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
+@Profile("springdatajpa")
 public class OwnerServiceJPA implements OwnerService {
 
     private final OwnerRepository ownerRepository;
@@ -24,7 +26,7 @@ public class OwnerServiceJPA implements OwnerService {
     @Override
     public Set<Owner> findAll() {
         Set<Owner> owners = new HashSet<>();
-        ownerRepository.findAll().iterator().forEachRemaining(owners::add);
+        ownerRepository.findAll().forEach(owners::add);
         return owners;
     }
 
