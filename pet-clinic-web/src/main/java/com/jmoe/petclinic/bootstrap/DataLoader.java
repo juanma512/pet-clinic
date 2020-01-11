@@ -5,11 +5,13 @@ import com.jmoe.petclinic.model.Pet;
 import com.jmoe.petclinic.model.PetType;
 import com.jmoe.petclinic.model.Specialty;
 import com.jmoe.petclinic.model.Vet;
+import com.jmoe.petclinic.model.Visit;
 import com.jmoe.petclinic.services.OwnerService;
 import com.jmoe.petclinic.services.PetService;
 import com.jmoe.petclinic.services.PetTypeService;
 import com.jmoe.petclinic.services.SpecialtyService;
 import com.jmoe.petclinic.services.VetService;
+import com.jmoe.petclinic.services.VisitService;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,15 +28,17 @@ public class DataLoader implements CommandLineRunner {
     private final PetTypeService petTypeService;
     private final PetService petService;
     private final SpecialtyService specialtyService;
+    private final VisitService visitService;
 
     public DataLoader(OwnerService ownerService, VetService vetService,
         PetTypeService petTypeService, PetService petService,
-        SpecialtyService specialtyService) {
+        SpecialtyService specialtyService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
         this.petService = petService;
         this.specialtyService = specialtyService;
+        this.visitService = visitService;
     }
 
     private Owner createOwner(String firstName, String lastName, String address, String city,
@@ -81,6 +85,14 @@ public class DataLoader implements CommandLineRunner {
         return specialtyService.save(specialty);
     }
 
+    private Visit createVisit(String date, String description, Pet pet) {
+        Visit visit = new Visit();
+        visit.setDate(LocalDate.parse(date));
+        visit.setDescription(description);
+        visit.setPet(pet);
+        return visitService.save(visit);
+    }
+
     @Override
     public void run(String... args) throws Exception {
         if (petTypeService.findAll().size() == 0) {
@@ -93,26 +105,25 @@ public class DataLoader implements CommandLineRunner {
             Set<Pet> pets = new HashSet<>(Arrays.asList(michu, goomba));
             System.out.println("Loaded pets ...");
 
-            Owner owner1 = createOwner("Juan Manuel", "Oviedo", "Calle Fuenlabrada 36",
+            createOwner("Juan Manuel", "Oviedo", "Calle Fuenlabrada 36",
                 "Getafe", "676938322", pets);
-            Owner owner2 = createOwner("Mireia", "Romero Moreno", "Calle Fuenlabrada 36",
+            createOwner("Mireia", "Romero Moreno", "Calle Fuenlabrada 36",
                 "Getafe", "695932729", pets);
             System.out.println("Loaded owners ...");
-            //System.out.println(owner1);
-            //System.out.println(owner2);
+
+            createVisit("2020-01-15", "Sneezy kitty", michu);
+            System.out.println("Loaded visits ...");
 
             Specialty surgery = createSpecialty("Surgery");
             Specialty rx = createSpecialty("RX");
             Specialty nutrition_and_food = createSpecialty("Nutrition and Food");
             System.out.println("Loaded specialties ...");
 
-            Vet vet1 = createVet("Ramiro", "Moreno Romero",
+            createVet("Ramiro", "Moreno Romero",
                 new HashSet<>(Collections.singletonList(surgery)));
-            Vet vet2 = createVet("Alicia", "Garcia Ramirez",
+            createVet("Alicia", "Garcia Ramirez",
                 new HashSet<>(Arrays.asList(rx, nutrition_and_food)));
             System.out.println("Loaded vets ...");
-            //System.out.println(vet1);
-            //System.out.println(vet2);
         }
     }
 }
