@@ -5,11 +5,13 @@ import com.jmoe.petclinic.repositories.VetRepository;
 import com.jmoe.petclinic.services.VetService;
 import java.util.HashSet;
 import java.util.Set;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
 @Profile("springdatajpa")
+@Primary
 public class VetServiceJPA implements VetService {
 
     private final VetRepository vetRepository;

@@ -3,13 +3,12 @@ package com.jmoe.petclinic.bootstrap;
 import com.jmoe.petclinic.model.Owner;
 import com.jmoe.petclinic.model.Pet;
 import com.jmoe.petclinic.model.PetType;
-import com.jmoe.petclinic.model.Specialty;
+import com.jmoe.petclinic.model.Speciality;
 import com.jmoe.petclinic.model.Vet;
 import com.jmoe.petclinic.model.Visit;
 import com.jmoe.petclinic.services.OwnerService;
-import com.jmoe.petclinic.services.PetService;
 import com.jmoe.petclinic.services.PetTypeService;
-import com.jmoe.petclinic.services.SpecialtyService;
+import com.jmoe.petclinic.services.SpecialityService;
 import com.jmoe.petclinic.services.VetService;
 import com.jmoe.petclinic.services.VisitService;
 import java.time.LocalDate;
@@ -26,103 +25,106 @@ public class DataLoader implements CommandLineRunner {
     private final OwnerService ownerService;
     private final VetService vetService;
     private final PetTypeService petTypeService;
-    private final PetService petService;
-    private final SpecialtyService specialtyService;
+    private final SpecialityService specialityService;
     private final VisitService visitService;
 
     public DataLoader(OwnerService ownerService, VetService vetService,
-        PetTypeService petTypeService, PetService petService,
-        SpecialtyService specialtyService, VisitService visitService) {
+        PetTypeService petTypeService,
+        SpecialityService specialityService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
-        this.petService = petService;
-        this.specialtyService = specialtyService;
+        this.specialityService = specialityService;
         this.visitService = visitService;
     }
 
     private Owner createOwner(String firstName, String lastName, String address, String city,
-        String telephone, Set<Pet> pets) {
+        String telephone) {
         Owner owner = new Owner();
         owner.setFirstName(firstName);
         owner.setLastName(lastName);
         owner.setAddress(address);
         owner.setCity(city);
         owner.setTelephone(telephone);
-        owner.setPets(pets);
 
-        return ownerService.save(owner);
+        return owner;
     }
 
-    private Vet createVet(String firstName, String lastName, Set<Specialty> specialties) {
+    private Vet createVet(String firstName, String lastName, Set<Speciality> specialities) {
         Vet vet = new Vet();
         vet.setFirstName(firstName);
         vet.setLastName(lastName);
-        vet.setSpecialties(specialties);
+        vet.setSpecialities(specialities);
 
-        return vetService.save(vet);
+        return vet;
     }
 
     private PetType createPetType(String name) {
         PetType petType = new PetType();
         petType.setName(name);
 
-        return petTypeService.save(petType);
+        return petType;
     }
 
-    private Pet createPet(LocalDate birthDate, PetType petType) {
+    private Pet createPet(String name, LocalDate birthDate, PetType petType) {
         Pet pet = new Pet();
         pet.setBirthDate(birthDate);
         pet.setPetType(petType);
+        pet.setName(name);
 
-        return petService.save(pet);
+        return pet;
     }
 
-    private Specialty createSpecialty(String description) {
-        Specialty specialty = new Specialty();
+    private Speciality createSpecialty(String description) {
+        Speciality specialty = new Speciality();
         specialty.setDescription(description);
 
-        return specialtyService.save(specialty);
+        return specialty;
     }
 
-    private Visit createVisit(String date, String description, Pet pet) {
+    private Visit createVisit(Pet pet, String date, String description) {
         Visit visit = new Visit();
+        visit.setPet(pet);
         visit.setDate(LocalDate.parse(date));
         visit.setDescription(description);
-        visit.setPet(pet);
-        return visitService.save(visit);
+        return visit;
     }
 
     @Override
     public void run(String... args) throws Exception {
         if (petTypeService.findAll().size() == 0) {
-            PetType dog = createPetType("Dog");
-            PetType cat = createPetType("Cat");
+            PetType dog = petTypeService.save(createPetType("Dog"));
+            PetType cat = petTypeService.save(createPetType("Cat"));
             System.out.println("Loaded pet types ...");
 
-            Pet goomba = createPet(LocalDate.parse("2015-07-24"), dog);
-            Pet michu = createPet(LocalDate.parse("2019-01-03"), cat);
-            Set<Pet> pets = new HashSet<>(Arrays.asList(michu, goomba));
-            System.out.println("Loaded pets ...");
-
-            createOwner("Juan Manuel", "Oviedo", "Calle Fuenlabrada 36",
-                "Getafe", "676938322", pets);
-            createOwner("Mireia", "Romero Moreno", "Calle Fuenlabrada 36",
-                "Getafe", "695932729", pets);
-            System.out.println("Loaded owners ...");
-
-            createVisit("2020-01-15", "Sneezy kitty", michu);
-            System.out.println("Loaded visits ...");
-
-            Specialty surgery = createSpecialty("Surgery");
-            Specialty rx = createSpecialty("RX");
-            Specialty nutrition_and_food = createSpecialty("Nutrition and Food");
+            Speciality surgery = specialityService.save(createSpecialty("Surgery"));
+            Speciality rx = specialityService.save(createSpecialty("RX"));
+            Speciality nutrition_and_food = specialityService
+                .save(createSpecialty("Nutrition and Food"));
             System.out.println("Loaded specialties ...");
 
-            createVet("Ramiro", "Moreno Romero",
-                new HashSet<>(Collections.singletonList(surgery)));
-            createVet("Alicia", "Garcia Ramirez",
-                new HashSet<>(Arrays.asList(rx, nutrition_and_food)));
+            Pet goomba = createPet("Goomba", LocalDate.parse("2015-07-24"), dog);
+            Pet michu = createPet("Michu", LocalDate.parse("2019-01-03"), cat);
+
+            Owner owner1 = createOwner("Juan Manuel", "Oviedo", "Calle Fuenlabrada 36",
+                "Getafe", "676938322");
+            owner1.addPet(goomba);
+            ownerService.save(owner1);
+
+            Owner owner2 = createOwner("Mireia", "Romero Moreno", "Calle Fuenlabrada 36",
+                "Getafe", "695932729");
+            owner2.addPet(michu);
+            ownerService.save(owner2);
+
+            System.out.println("Loaded owners & pets ...");
+
+            visitService.save(createVisit(michu, "2020-01-15", "Sneezy kitty"));
+            System.out.println("Loaded visits ...");
+
+            vetService.save(createVet("Ramiro", "Moreno Romero",
+                new HashSet<>(Collections.singletonList(surgery))));
+            vetService.save(createVet("Alicia", "Garcia Ramirez",
+                new HashSet<>(Arrays.asList(rx, nutrition_and_food))));
             System.out.println("Loaded vets ...");
         }
     }

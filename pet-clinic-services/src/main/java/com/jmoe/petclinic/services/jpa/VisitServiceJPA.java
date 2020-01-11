@@ -5,11 +5,13 @@ import com.jmoe.petclinic.repositories.VisitRepository;
 import com.jmoe.petclinic.services.VisitService;
 import java.util.HashSet;
 import java.util.Set;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
 @Profile("springdatajpa")
+@Primary
 public class VisitServiceJPA implements VisitService {
 
     private final VisitRepository visitRepository;

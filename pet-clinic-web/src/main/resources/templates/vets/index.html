@@ -23,8 +23,8 @@
     <td th:text="${vet.firstName}"></td>
     <td th:text="${vet.lastName}"></td>
     <td>
-      <p th:each="specialty : ${vet.specialties}">
-        <span th:text="${specialty.description}"></span>
+      <p th:each="speciality : ${vet.getSpecialities}">
+        <span th:text="${speciality.description}"></span>
       </p>
     </td>
   </tr>

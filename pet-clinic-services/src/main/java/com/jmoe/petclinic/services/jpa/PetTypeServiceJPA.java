@@ -5,11 +5,13 @@ import com.jmoe.petclinic.repositories.PetTypeRepository;
 import com.jmoe.petclinic.services.PetTypeService;
 import java.util.HashSet;
 import java.util.Set;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
 @Profile("springdatajpa")
+@Primary
 public class PetTypeServiceJPA implements PetTypeService {
 
     private final PetTypeRepository petTypeRepository;

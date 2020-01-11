@@ -5,11 +5,13 @@ import com.jmoe.petclinic.repositories.OwnerRepository;
 import com.jmoe.petclinic.services.OwnerService;
 import java.util.HashSet;
 import java.util.Set;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
 @Profile("springdatajpa")
+@Primary
 public class OwnerServiceJPA implements OwnerService {
 
     private final OwnerRepository ownerRepository;
@@ -31,22 +33,22 @@ public class OwnerServiceJPA implements OwnerService {
     }
 
     @Override
-    public Owner findById(Long aLong) {
-        return ownerRepository.findById(aLong).orElse(null);
+    public Owner findById(Long id) {
+        return ownerRepository.findById(id).orElse(null);
     }
 
     @Override
-    public Owner save(Owner object) {
-        return ownerRepository.save(object);
+    public Owner save(Owner owner) {
+        return ownerRepository.save(owner);
     }
 
     @Override
-    public void delete(Owner object) {
-        ownerRepository.delete(object);
+    public void delete(Owner owner) {
+        ownerRepository.delete(owner);
     }
 
     @Override
-    public void deleteById(Long aLong) {
-        ownerRepository.deleteById(aLong);
+    public void deleteById(Long id) {
+        ownerRepository.deleteById(id);
     }
 }

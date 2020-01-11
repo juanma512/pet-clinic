@@ -9,13 +9,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Table(name = "owners")
 @Getter
 @Setter
-@ToString
 public class Owner extends Person {
 
     @Column(name = "address")
@@ -29,5 +27,11 @@ public class Owner extends Person {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Set<Pet> pets = new HashSet<>();
+
+    public Owner addPet(Pet pet) {
+        pet.setOwner(this);
+        this.pets.add(pet);
+        return this;
+    }
 
 }
