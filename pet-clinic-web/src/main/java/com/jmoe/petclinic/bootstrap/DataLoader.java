@@ -40,58 +40,52 @@ public class DataLoader implements CommandLineRunner {
 
     private Owner createOwner(String firstName, String lastName, String address, String city,
         String telephone) {
-        Owner owner = new Owner();
-        owner.setFirstName(firstName);
-        owner.setLastName(lastName);
-        owner.setAddress(address);
-        owner.setCity(city);
-        owner.setTelephone(telephone);
-
-        return owner;
+        return Owner.builder()
+            .firstName(firstName)
+            .lastName(lastName)
+            .address(address)
+            .city(city)
+            .telephone(telephone)
+            .pets(new HashSet<>())
+            .build();
     }
 
     private Vet createVet(String firstName, String lastName, Set<Speciality> specialities) {
-        Vet vet = new Vet();
-        vet.setFirstName(firstName);
-        vet.setLastName(lastName);
-        vet.setSpecialities(specialities);
-
-        return vet;
+        return Vet.builder()
+            .firstName(firstName)
+            .lastName(lastName)
+            .specialities(specialities)
+            .build();
     }
 
     private PetType createPetType(String name) {
-        PetType petType = new PetType();
-        petType.setName(name);
-
-        return petType;
+        return PetType.builder()
+            .name(name)
+            .build();
     }
 
     private Pet createPet(String name, LocalDate birthDate, PetType petType) {
-        Pet pet = new Pet();
-        pet.setBirthDate(birthDate);
-        pet.setPetType(petType);
-        pet.setName(name);
-
-        return pet;
+        return Pet.builder()
+            .birthDate(birthDate)
+            .petType(petType)
+            .name(name).build();
     }
 
     private Speciality createSpecialty(String description) {
-        Speciality specialty = new Speciality();
-        specialty.setDescription(description);
-
-        return specialty;
+        return Speciality.builder()
+            .description(description).build();
     }
 
     private Visit createVisit(Pet pet, String date, String description) {
-        Visit visit = new Visit();
-        visit.setPet(pet);
-        visit.setDate(LocalDate.parse(date));
-        visit.setDescription(description);
-        return visit;
+        return Visit.builder()
+            .pet(pet)
+            .date(LocalDate.parse(date))
+            .description(description)
+            .build();
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         if (petTypeService.findAll().size() == 0) {
             PetType dog = petTypeService.save(createPetType("Dog"));
             PetType cat = petTypeService.save(createPetType("Cat"));
