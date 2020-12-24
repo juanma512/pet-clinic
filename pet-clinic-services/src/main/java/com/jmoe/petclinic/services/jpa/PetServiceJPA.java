@@ -5,20 +5,18 @@ import com.jmoe.petclinic.repositories.PetRepository;
 import com.jmoe.petclinic.services.PetService;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 @Profile("springdatajpa")
 @Primary
 public class PetServiceJPA implements PetService {
 
     private final PetRepository petRepository;
-
-    public PetServiceJPA(PetRepository petRepository) {
-        this.petRepository = petRepository;
-    }
 
     @Override
     public Set<Pet> findAll() {

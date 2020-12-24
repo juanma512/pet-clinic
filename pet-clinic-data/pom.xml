@@ -25,11 +25,6 @@
       <groupId>mysql</groupId>
       <scope>runtime</scope>
     </dependency>
-    <dependency>
-      <artifactId>lombok</artifactId>
-      <groupId>org.projectlombok</groupId>
-      <optional>true</optional>
-    </dependency>
   </dependencies>
 
   <modelVersion>4.0.0</modelVersion>

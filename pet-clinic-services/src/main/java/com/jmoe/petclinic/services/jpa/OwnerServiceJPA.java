@@ -5,20 +5,18 @@ import com.jmoe.petclinic.repositories.OwnerRepository;
 import com.jmoe.petclinic.services.OwnerService;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 @Profile("springdatajpa")
 @Primary
 public class OwnerServiceJPA implements OwnerService {
 
     private final OwnerRepository ownerRepository;
-
-    public OwnerServiceJPA(OwnerRepository ownerRepository) {
-        this.ownerRepository = ownerRepository;
-    }
 
     @Override
     public Owner findByLastName(String lastName) {

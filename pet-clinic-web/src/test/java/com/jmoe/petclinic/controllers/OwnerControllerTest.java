@@ -1,6 +1,7 @@
 package com.jmoe.petclinic.controllers;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -60,6 +61,21 @@ class OwnerControllerTest {
         mockMvc.perform(get("/owners/find"))
             .andExpect(status().isOk())
             .andExpect(view().name("error"));
+    }
+
+    @Test
+    void showOwner() throws Exception {
+        // Given
+        Owner owner = Owner.builder().id(OWNER_1).build();
+
+        // When
+        when(ownerService.findById(anyLong())).thenReturn(owner);
+
+        // Then
+        mockMvc.perform(get("/owners/1"))
+            .andExpect(status().isOk())
+            .andExpect(view().name("/owners/details"))
+            .andExpect(MockMvcResultMatchers.model().attributeExists("owner"));
     }
 
     private Set<Owner> buildOwners() {
