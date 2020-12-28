@@ -8,6 +8,6 @@ public interface OwnerRepository extends CrudRepository<Owner, Long> {
 
     Owner findByLastName(String lastName);
 
-    List<Owner> findAllByLastNameIsLike(String lastName);
+    List<Owner> findAllByLastNameLike(String lastName);
 
 }
