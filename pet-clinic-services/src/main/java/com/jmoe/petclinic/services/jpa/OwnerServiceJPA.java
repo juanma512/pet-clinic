@@ -4,6 +4,7 @@ import com.jmoe.petclinic.model.Owner;
 import com.jmoe.petclinic.repositories.OwnerRepository;
 import com.jmoe.petclinic.services.OwnerService;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -21,6 +22,11 @@ public class OwnerServiceJPA implements OwnerService {
     @Override
     public Owner findByLastName(String lastName) {
         return ownerRepository.findByLastName(lastName);
+    }
+
+    @Override
+    public List<Owner> findAllByLastNameLike(String lastName) {
+        return ownerRepository.findAllByLastNameIsLike(lastName);
     }
 
     @Override
