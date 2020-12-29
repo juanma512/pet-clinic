@@ -45,4 +45,11 @@ public class Owner extends Person {
         return this;
     }
 
+    public Pet getPet(String name, boolean ignoreNew) {
+        return pets.stream()
+            .filter(pet -> !pet.isNew() && !ignoreNew && pet.getName().toLowerCase().equals(name.toLowerCase()))
+            .findFirst()
+            .orElse(null);
+    }
+
 }
