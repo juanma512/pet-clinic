@@ -32,7 +32,7 @@
   <parent>
     <artifactId>pet-clinic</artifactId>
     <groupId>com.jmoe</groupId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.5</version>
   </parent>
 
   <properties>
