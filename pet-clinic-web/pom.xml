@@ -44,7 +44,7 @@
     <dependency>
       <artifactId>pet-clinic-services</artifactId>
       <groupId>com.jmoe</groupId>
-      <version>0.0.5</version>
+      <version>0.0.6-SNAPSHOT</version>
     </dependency>
     <dependency>
       <artifactId>spring-boot-starter-actuator</artifactId>
@@ -94,7 +94,7 @@
   <parent>
     <artifactId>pet-clinic</artifactId>
     <groupId>com.jmoe</groupId>
-    <version>0.0.5</version>
+    <version>0.0.6-SNAPSHOT</version>
   </parent>
 
 </project>
