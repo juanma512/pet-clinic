@@ -9,6 +9,7 @@ import com.jmoe.petclinic.services.PetTypeService;
 import java.beans.PropertyEditorSupport;
 import java.time.LocalDate;
 import java.util.Collection;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -66,7 +67,7 @@ public class PetController {
     }
 
     @PostMapping("/owners/{ownerId}/pets/new")
-    public String processCreationForm(Owner owner, Pet pet, BindingResult result, ModelMap model) {
+    public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model) {
         if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null) {
             result.rejectValue("name", "duplicate", "already exists");
         }
@@ -87,7 +88,7 @@ public class PetController {
     }
 
     @PostMapping("/owners/{ownerId}/pets/*/edit")
-    public String processEditForm(Pet pet, Owner owner, BindingResult result, ModelMap model) {
+    public String processEditForm(@Valid Pet pet, Owner owner, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             pet.setOwner(owner);
             model.put("pet", pet);

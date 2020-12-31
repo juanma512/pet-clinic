@@ -6,6 +6,7 @@ import com.jmoe.petclinic.services.PetService;
 import com.jmoe.petclinic.services.VisitService;
 import java.beans.PropertyEditorSupport;
 import java.time.LocalDate;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -51,7 +52,7 @@ public class VisitController {
     }
 
     @PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
-    public String processNewVisitForm(Visit visit, BindingResult result) {
+    public String processNewVisitForm(@Valid Visit visit, BindingResult result) {
         if (result.hasErrors()) {
             return "pets/newVisitForm";
         } else {

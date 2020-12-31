@@ -26,6 +26,7 @@
       <p th:each="speciality : ${vet.specialities}">
         <span th:text="${speciality.description}"></span>
       </p>
+      <p th:if="${vet?.specialities?.size == 0}">none</p>
     </td>
   </tr>
   </tbody>

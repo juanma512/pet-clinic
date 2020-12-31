@@ -60,7 +60,9 @@
       </plugin>
     </plugins>
   </build>
+
   <packaging>pom</packaging>
+
   <dependencies>
     <dependency>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -78,6 +80,7 @@
       <artifactId>lombok</artifactId>
     </dependency>
   </dependencies>
+
   <description>My Pet Clininc using Springboot 2</description>
   <groupId>com.jmoe</groupId>
   <modelVersion>4.0.0</modelVersion>
